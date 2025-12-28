@@ -1,0 +1,17 @@
+# Mainnet Config
+ethereum_rpc = "https://eth.llamarpc.com"
+drosera_rpc = "https://relay.mainnet.drosera.io"
+eth_chain_id = 1
+drosera_address = "0x0c4f7e9684a11805Fc5406989F5124bFC2AD0D84"
+
+[traps]
+[traps.circuit_breaker]
+path = "out/CircuitBreakerTrap.sol/CircuitBreakerTrap.json"
+response_contract = "0xYOUR_RESPONSE_ADDRESS_HERE"
+response_function = "breakCircuit(bytes)"
+cooldown_period_blocks = 50
+min_number_of_operators = 2
+max_number_of_operators = 5
+block_sample_size = 2    # CRITICAL: Must be 2 for volatility/drop logic
+private_trap = true
+whitelist = ["0xYOUR_WALLET_ADDRESS"]
