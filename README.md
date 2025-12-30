@@ -1,32 +1,29 @@
-# Circuit Breaker Trap (Ethereum Mainnet)
+# Circuit Breaker Trap ⚡
 
-A high-performance "Solvency & Security" trap designed for the Drosera Network on Ethereum Mainnet. This trap implements a **Triple-Vector Detection System** to protect protocols against catastrophic market events.
+**Status:** Experimental / Research 🧪  
+**Network:** Ethereum Mainnet  
+**Focus:** DeFi Volatility & Depeg Protection
 
-## Detection Logic
+## Overview
+The **Circuit Breaker** is an advanced multi-vector monitoring trap designed for the Drosera Network. It aggregates data from multiple on-chain sources (Chainlink Oracles and Uniswap V3 Pools) to provide a holistic "Health Score" for DeFi protocols.
 
-The trap monitors three critical DeFi vectors simultaneously in every block:
+Unlike simple monitors that check one metric, the Circuit Breaker correlates price volatility, stablecoin de-pegging, and liquidity crunches into a single binary trigger.
 
-1.  **Market Volatility (ETH/USD):**
-    * **Source:** Chainlink Oracle.
-    * **Trigger:** Detects >5% instant price deviation between Oracle rounds (Flash Crash detection).
+## Detection Vectors
+This trap monitors three distinct market failures simultaneously:
+1.  **Asset Volatility:** Triggers if ETH price moves > 10% in a single update.
+2.  **Stablecoin Depeg:** Triggers if USDC price drops below $0.98.
+3.  **Liquidity Crisis:** Triggers if Uniswap V3 pool liquidity drops > 15% instantly.
 
-2.  **Stablecoin Stability (USDC/USD):**
-    * **Source:** Chainlink Oracle.
-    * **Trigger:** Detects if USDC depegs below $0.99. This protects against systemic stablecoin failure.
+## Operational Logic
+* **Oracles:** Chainlink `ETH/USD` and `USDC/USD`.
+* **DEX:** Uniswap V3 `ETH/USDC` Pool.
+* **Mechanism:** * Fetches `latestRoundData` from Chainlink.
+    * Fetches `liquidity()` from Uniswap.
+    * Compares current block data vs. historical data to calculate deltas.
 
-3.  **Liquidity Depth (Uniswap V3):**
-    * **Source:** Uniswap V3 USDC/WETH Pool.
-    * **Trigger:** Detects sudden liquidity drains (>10% drop), signaling potential whale exits or rug pulls.
+## Development Note
+This trap represents an optimized "Lite" implementation of multi-vector monitoring. It demonstrates the logic required to bundle complex oracle dependencies into a single Drosera Trap.
 
-## Response Mechanism
-
-**Function:** `breakCircuit(bytes[] calldata data)`
-
-When any of the three vectors are triggered, the trap calls the response contract to emit a permanent on-chain alert (`CircuitBreakerTriggered`). In a production environment, this function would be connected to a protocol's `pause()` or `emergencyShutdown()` module.
-
-## Technical Details
-
-* **Network:** Ethereum Mainnet
-* **Oracles:** Chainlink (ETH/USD, USDC/USD)
-* **Integration:** Uniswap V3 Core
-* **Dependencies:** Drosera Network ITrap Interface
+## Directory Structure
+* `src/CircuitBreakerTrap.sol`: Main logic containing the multi-vector checks.
