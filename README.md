@@ -4,6 +4,8 @@
 **Network:** Ethereum Mainnet  
 **Focus:** DeFi Volatility & Depeg Protection
 
+**Response Contract:** 0xe5CBE36C545513b24cE25117f7B9BEb9f2f6e1F1
+
 ## Overview
 The **Circuit Breaker** is an advanced multi-vector monitoring trap designed for the Drosera Network. It aggregates data from multiple on-chain sources (Chainlink Oracles and Uniswap V3 Pools) to provide a holistic "Health Score" for DeFi protocols.
 
